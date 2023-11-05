@@ -1,14 +1,16 @@
 const searchForm = document.getElementById('searchForm');
 const searchButton = document.getElementById('searchButton');
-const book = document.getElementById('book');
+const searchInput = document.getElementById('searchInput');
 const addBookButton = document.getElementById("addBookButton");
 const addBookModal = document.getElementById("addBookModal");
 const closeModal = document.getElementById("closeModal");
 
-searchForm.addEventListener("submit", (e) => {
+searchForm.addEventListener("submit", async function(e) {
     e.preventDefault();
-    addBookToLibrary(book.value);
-    book.value="";
+    bookData = await getBookData(searchInput.value);
+    searchInput.value="";
+    console.log(bookData);
+    // addBookCard(bookData);
 })
 
 addBookButton.addEventListener("click", () => {
@@ -33,20 +35,36 @@ Book.prototype.info = function() {
 const booksInLibrary = [];
 const apiKey = "AIzaSyDigPDuzzDm-W4SQl-9xv5i2IBEBmVeOLs";
 
-async function addBookToLibrary(book) {
+async function getBookData(book) {
     const requestedData = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${book}&key=${apiKey}`)
-    const jsonData = await requestedData.json();
-    console.log(jsonData);
-    console.log(jsonData.items[0].volumeInfo.imageLinks.thumbnail);
-    console.log(jsonData.items[0].volumeInfo.imageLinks.smallThumbnail);
-    const author = jsonData.items[0].volumeInfo.authors[0];
-    const title = jsonData.items[0].volumeInfo.title;
-    const numberOfPages = jsonData.items[0].volumeInfo.pageCount;
-    const haveRead = true;
+    const bookData = await requestedData.json();
+    // console.log(bookData);
+    console.log(bookData.items[0].volumeInfo.imageLinks.thumbnail);
+    console.log(bookData.items[0].volumeInfo.imageLinks.smallThumbnail);
+    // const author = jsonData.items[0].volumeInfo.authors[0];
+    // const title = jsonData.items[0].volumeInfo.title;
+    // const numberOfPages = jsonData.items[0].volumeInfo.pageCount;
+    // const haveRead = true;
 
-    const bookToAdd = new Book(title, author, numberOfPages, haveRead);
-    booksInLibrary.push(bookToAdd);
+    // const bookToAdd = new Book(title, author, numberOfPages, haveRead);
+    // booksInLibrary.push(bookToAdd);
+    return bookData;
 }
 
-addBookToLibrary('Chaos');
+function createBookCard() {
+    const bookCard = createElement('div', "");
+    const imageDiv = createElement('div', "");
+    const image = createElement('img', "");
+    image.src="https://books.google.com/books/content?id=zG92DwAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api";
+    imageDiv.append(image);
+    bookCard.append(imageDiv);
+    return bookCard;
+}
+
+function createElement(type, content) {
+    const el = document.createElement(type);
+    el.innerText = content;
+    return el;
+}
+
 
