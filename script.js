@@ -1,11 +1,22 @@
 const searchForm = document.getElementById('searchForm');
 const searchButton = document.getElementById('searchButton');
 const book = document.getElementById('book');
+const addBookButton = document.getElementById("addBookButton");
+const addBookModal = document.getElementById("addBookModal");
+const closeModal = document.getElementById("closeModal");
 
 searchForm.addEventListener("submit", (e) => {
     e.preventDefault();
     addBookToLibrary(book.value);
     book.value="";
+})
+
+addBookButton.addEventListener("click", () => {
+    addBookModal.style.display="grid";
+})
+
+closeModal.addEventListener("click", () => {
+    addBookModal.style.display="none";
 })
 
 function Book(title, author, numPages, haveRead) {

@@ -5,18 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Library</title>
     <link href="styles.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Archivo+Black">
 </head>
 <body>
     <div class="main">
         <div class="header">
-            <form id="searchForm">
-                <label for="book">Search for Books</label>
-                <input type="search" name="book" id="book">
-                <button type="submit" id="searchButton">Search</button>
-            </form>
+            <h1>Virtual Library</h1>
+
+            <button type="button" id="addBookButton">Add New Book</button>
         </div>
         <div class="container">
-            <div class="left-side"></div>
             <div class="card-container">
                 <div class="card">
                     <div class="image">
@@ -38,61 +36,19 @@
                         <p>500 pages</p>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="image">
-                        <img src="http://books.google.com/books/content?id=zG92DwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api">
-                    </div>
-                    <div class="book-info">
-                        <h2>Chaos</h2>
-                        <p>by Tom O'Neil</p>
-                        <p>500 pages</p>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="image">
-                        <img src="http://books.google.com/books/content?id=zG92DwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api">
-                    </div>
-                    <div class="book-info">
-                        <h2>Chaos</h2>
-                        <p>by Tom O'Neil</p>
-                        <p>500 pages</p>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="image">
-                        <img src="http://books.google.com/books/content?id=zG92DwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api">
-                    </div>
-                    <div class="book-info">
-                        <h2>Chaos</h2>
-                        <p>by Tom O'Neil</p>
-                        <p>500 pages</p>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="image">
-                        <img src="http://books.google.com/books/content?id=zG92DwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api">
-                    </div>
-                    <div class="book-info">
-                        <h2>Chaos</h2>
-                        <p>by Tom O'Neil</p>
-                        <p>500 pages</p>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="image">
-                        <img src="http://books.google.com/books/content?id=zG92DwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api">
-                    </div>
-                    <div class="book-info">
-                        <h2>Chaos</h2>
-                        <p>by Tom O'Neil</p>
-                        <p>500 pages</p>
-                    </div>
+            </div>
+        </div>
+        <div id="addBookModal" class="modal">
+            <div class="modal-content">
+                <form id="searchForm">
+                    <label for="book">Search for NewBooks</label>
+                    <input type="search" name="book" id="book">
+                    <button type="submit" id="searchButton">Search</button>
+                </form>
+                <div class="close-modal" id="closeModal">
+                    <span>X</span>
                 </div>
             </div>
-            <div class="right-side"></div>
-        </div>
-        <div class="footer">
-            <h3>FOOTER</h3>
         </div>
     </div>
     <script src="script.js"></script>
