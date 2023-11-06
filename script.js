@@ -4,13 +4,15 @@ const searchInput = document.getElementById('searchInput');
 const addBookButton = document.getElementById("addBookButton");
 const addBookModal = document.getElementById("addBookModal");
 const closeModal = document.getElementById("closeModal");
+const modalContent = document.getElementById('modal-content');
 
 searchForm.addEventListener("submit", async function(e) {
     e.preventDefault();
     bookData = await getBookData(searchInput.value);
     searchInput.value="";
     console.log(bookData);
-    // addBookCard(bookData);
+    const bookCard = createBookCard(bookData);
+    modalContent.appendChild(bookCard);
 })
 
 addBookButton.addEventListener("click", () => {
@@ -22,10 +24,10 @@ closeModal.addEventListener("click", () => {
 })
 
 function Book(title, author, numPages, haveRead) {
-    this.title = title
-    this.author= author
-    this.numPages = numPages
-    this.haveRead = haveRead
+    this.title = title;
+    this.author= author;
+    this.numPages = numPages;
+    this.haveRead = haveRead;
 }
 
 Book.prototype.info = function() {
@@ -38,26 +40,28 @@ const apiKey = "AIzaSyDigPDuzzDm-W4SQl-9xv5i2IBEBmVeOLs";
 async function getBookData(book) {
     const requestedData = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${book}&key=${apiKey}`)
     const bookData = await requestedData.json();
-    // console.log(bookData);
-    console.log(bookData.items[0].volumeInfo.imageLinks.thumbnail);
-    console.log(bookData.items[0].volumeInfo.imageLinks.smallThumbnail);
-    // const author = jsonData.items[0].volumeInfo.authors[0];
-    // const title = jsonData.items[0].volumeInfo.title;
-    // const numberOfPages = jsonData.items[0].volumeInfo.pageCount;
-    // const haveRead = true;
-
-    // const bookToAdd = new Book(title, author, numberOfPages, haveRead);
-    // booksInLibrary.push(bookToAdd);
     return bookData;
 }
 
-function createBookCard() {
+function createBookCard(bookData) {
     const bookCard = createElement('div', "");
+    bookCard.setAttribute('class', "card");
     const imageDiv = createElement('div', "");
+    imageDiv.setAttribute('class', 'image');
     const image = createElement('img', "");
-    image.src="https://books.google.com/books/content?id=zG92DwAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api";
+    // console.log(bookData);
+    image.src=`${bookData.items[0].volumeInfo.imageLinks.thumbnail}`
     imageDiv.append(image);
     bookCard.append(imageDiv);
+    const bookInfo = createElement('div', "");
+    bookInfo.setAttribute('class', 'book-info');
+    const bookTitle = createElement('h2',`${bookData.items[0].volumeInfo.title}`);
+    bookInfo.appendChild(bookTitle);
+    const bookAuthors = createElement('p', `${bookData.items[0].volumeInfo.authors[0]}`);
+    bookInfo.appendChild(bookAuthors);
+    const numberOfPages = createElement('p', `${bookData.items[0].volumeInfo.pageCount}`);
+    bookInfo.appendChild(numberOfPages);
+    bookCard.appendChild(bookInfo);
     return bookCard;
 }
 

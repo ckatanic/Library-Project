@@ -75,7 +75,7 @@ button {
 }
 
 .card {
-    width: fit-content;
+    width: 400px;
     background-color: var(--clr-light-ray);
     border-radius: 10px;
     display: flex;
