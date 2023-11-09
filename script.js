@@ -4,7 +4,7 @@ const searchInput = document.getElementById('searchInput');
 const addBookButton = document.getElementById("addBookButton");
 const addBookModal = document.getElementById("addBookModal");
 const closeModal = document.getElementById("closeModal");
-const searchResults = document.getElementById('search-results');
+const searchResultsDiv = document.getElementById('search-results');
 const addToLibraryButton = document.getElementById('addToLibraryButton');
 const booksDisplay = document.getElementById('books-display');
 const controls = document.getElementsByClassName('controls')[0];
@@ -25,39 +25,44 @@ Book.prototype.info = function() {
 const library = {
     booksInLibrary: [],
     allSearchResults: {},
-    currentBookToAddCandidate: {},
+    currentBookToAddCandidate: 0,
 
-    getBookData: async function(book) {
+    getSearchResults: async function(book) {
         const requestedData = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${book}&key=${apiKey}`)
-        const bookData = await requestedData.json();
-        library.allSearchResults = bookData;
-        return bookData;
+        const searchResultsData = await requestedData.json();
+        library.allSearchResults = searchResultsData.items.map((item, index) => {
+            return library.createBookCard(item, index);
+        });
+        return searchResultsData;
     },
-    createBookCard: function(bookData) {
+    createBookCard: function(searchQueryData) {
         const bookCard = library.createElement('div', "");
         bookCard.setAttribute('class', "card");
 
         const imageDiv = library.createElement('div', "");
         imageDiv.setAttribute('class', 'image');
 
-        const image = library.createElement('img', "");
-        image.src=`${bookData.items[0].volumeInfo.imageLinks.thumbnail}`
-        imageDiv.append(image);
-        bookCard.append(imageDiv);
+        if (searchQueryData.volumeInfo.imageLinks !== undefined) {
+            const image = library.createElement('img', "");
+            image.src = searchQueryData.volumeInfo.imageLinks.thumbnail
+            imageDiv.append(image);
+            bookCard.append(imageDiv);
+        }
+
 
         const bookInfo = library.createElement('div', "");
         bookInfo.setAttribute('class', 'book-info');
 
-        const bookTitle = library.createElement('h2',`${bookData.items[0].volumeInfo.title}`);
+        const bookTitle = library.createElement('h2', searchQueryData.volumeInfo.title);
         bookInfo.appendChild(bookTitle);
 
-        const bookAuthors = library.createElement('p', `${bookData.items[0].volumeInfo.authors[0]}`);
+        const bookAuthors = library.createElement('p', searchQueryData.volumeInfo.authors[0]);
         bookInfo.appendChild(bookAuthors);
 
-        const numberOfPages = library.createElement('p', `${bookData.items[0].volumeInfo.pageCount}`);
+        const numberOfPages = library.createElement('p', searchQueryData.volumeInfo.pageCount);
         bookInfo.appendChild(numberOfPages);
         bookCard.appendChild(bookInfo);
-        library.currentBookToAddCandidate = bookCard;
+        // library.currentBookToAddCandidate = bookCard;
 
         return bookCard;
     },
@@ -66,15 +71,37 @@ const library = {
         el.innerText = content;
         return el;
     },
-    removeSearchCandidate: function() {
-        cardToRemove = searchResults.children[0];
+    clearCurrentBookDisplay: function() {
+        cardToRemove = searchResultsDiv.children[0];
         if (cardToRemove) {
             cardToRemove.remove();
         }
     },
+    nextSearchResult: function() {
+        if (library.currentBookToAddCandidate != library.allSearchResults.length-1) {
+            library.currentBookToAddCandidate+=1;
+            console.log(library.currentBookToAddCandidate);
+            library.clearCurrentBookDisplay();
+            searchResultsDiv.appendChild(library.allSearchResults[`${library.currentBookToAddCandidate}`]);
+        }
+        else {
+            console.log("No More Results");
+        }
+    },
+    previousSearchResult: function() {
+        if (library.currentBookToAddCandidate != 0) {
+            library.currentBookToAddCandidate-=1;
+            console.log(library.currentBookToAddCandidate);
+            library.clearCurrentBookDisplay();
+            searchResultsDiv.appendChild(library.allSearchResults[`${library.currentBookToAddCandidate}`]);
+        }
+        else {
+            console.log("This is the first result");
+        }
+    },
     closeModal: function() {
         addBookModal.style.display="none";
-        library.removeSearchCandidate();
+        library.clearCurrentBookDisplay();
         document.getElementById('addToLibraryButton').style.display="none";
         controls.style.display="none";
     }
@@ -82,14 +109,12 @@ const library = {
 
 searchForm.addEventListener("submit", async function(e) {
     e.preventDefault();
-    if (searchResults.children.length > 0) {
-        library.removeSearchCandidate();
+    if (searchResultsDiv.children.length > 0) {
+        library.clearCurrentBookDisplay();
     }
-    bookData = await library.getBookData(searchInput.value);
+    searchResultsData = await library.getSearchResults(searchInput.value);
     searchInput.value="";
-    console.log(bookData);
-    const bookCard = library.createBookCard(bookData);
-    searchResults.appendChild(bookCard);
+    searchResultsDiv.appendChild(library.allSearchResults[0]);
     addToLibraryButton.style.display="block";
     controls.style.display="flex";
 })
