@@ -15,7 +15,7 @@
             <button type="button" id="addBookButton">Add New Book</button>
         </div>
         <div class="container">
-            <div class="card-container">
+            <div class="card-container" id="books-display">
                 <div class="card">
                     <div class="image">
                         <img src="http://books.google.com/books/content?id=zG92DwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api">
@@ -39,27 +39,24 @@
             </div>
         </div>
         <div id="addBookModal" class="modal">
-            <div class="modal-content" id="modal-content">
+            <div class="modal-content">
                 <form id="searchForm">
-                    <label for="book">Search for NewBooks</label>
+                    <label for="book">Search for New Books</label>
                     <input type="search" name="book" id="searchInput">
                     <button type="submit" id="searchButton">Search</button>
                 </form>
-                <div class="search-results">
-                    <!-- <div class="card">
-                            <div class="image">
-                                <img src="http://books.google.com/books/content?id=zG92DwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api">
-                            </div>
-                            <div class="book-info">
-                                <h2>Chaos</h2>
-                                <p>by Tom O'Neil</p> 
-                                <p>500 pages</p>
-                            </div>
-                        </div> -->
+                <div class="search-results" id="search-results">
                 </div>
-                <div class="close-modal" id="closeModal">
-                    <span>X</span>
+                <div class="controls">
+                    <!-- Previous SVG Arrow -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Previous Book</title><path d="M13,22L3,12L13,2V8H21V16H13V22M6,12L11,17V14H19V10H11V7L6,12Z" /></svg>
+                    <!-- 1 of 10 span -->
+                    <span>1 of 10 Results</span>
+                    <!-- Next SVG Arrow -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Next Book</title><path d="M11,16H3V8H11V2L21,12L11,22V16M13,7V10H5V14H13V17L18,12L13,7Z" /></svg>
                 </div>
+                <button type="button" id="addToLibraryButton">Add to Library</button>
+                <svg class="close-modal" id="closeModal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>close-thick</title><path d="M20 6.91L17.09 4L12 9.09L6.91 4L4 6.91L9.09 12L4 17.09L6.91 20L12 14.91L17.09 20L20 17.09L14.91 12L20 6.91Z" /></svg>
             </div>
         </div>
     </div>
