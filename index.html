@@ -6,6 +6,9 @@
     <title>Library</title>
     <link href="styles.css" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Archivo+Black">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="main">
@@ -47,13 +50,13 @@
                 </form>
                 <div class="search-results" id="search-results">
                 </div>
-                <div class="controls">
+                <div class="controls" id="controls">
                     <!-- Previous SVG Arrow -->
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Previous Book</title><path d="M13,22L3,12L13,2V8H21V16H13V22M6,12L11,17V14H19V10H11V7L6,12Z" /></svg>
+                    <svg id="previous" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Previous Book</title><path d="M13,22L3,12L13,2V8H21V16H13V22M6,12L11,17V14H19V10H11V7L6,12Z" /></svg>
                     <!-- 1 of 10 span -->
-                    <span>1 of 10 Results</span>
+                    <span id="currentResultIndicator">1 of 10 Results</span>
                     <!-- Next SVG Arrow -->
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Next Book</title><path d="M11,16H3V8H11V2L21,12L11,22V16M13,7V10H5V14H13V17L18,12L13,7Z" /></svg>
+                    <svg id="next" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Next Book</title><path d="M11,16H3V8H11V2L21,12L11,22V16M13,7V10H5V14H13V17L18,12L13,7Z" /></svg>
                 </div>
                 <button type="button" id="addToLibraryButton">Add to Library</button>
                 <svg class="close-modal" id="closeModal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>close-thick</title><path d="M20 6.91L17.09 4L12 9.09L6.91 4L4 6.91L9.09 12L4 17.09L6.91 20L12 14.91L17.09 20L20 17.09L14.91 12L20 6.91Z" /></svg>

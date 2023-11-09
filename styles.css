@@ -2,6 +2,7 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: Roboto;
 }
 
 :root {
@@ -14,7 +15,7 @@
     grid-template-rows: auto 1fr auto;
     background-color: var(--clr-dark-gray);
     min-height: 100svh;
-    margin: 0 auto;    
+    margin: 0 auto; 
 }
 
 .header {
@@ -140,7 +141,15 @@ button {
 
 .controls svg {
     height: 3rem;
+    cursor: pointer;
+    fill: #333;
 }
+
+.controls svg:hover {
+    fill: #777;
+}
+
+
 
 #addToLibraryButton {
     display: none;

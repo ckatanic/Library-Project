@@ -7,7 +7,10 @@ const closeModal = document.getElementById("closeModal");
 const searchResultsDiv = document.getElementById('search-results');
 const addToLibraryButton = document.getElementById('addToLibraryButton');
 const booksDisplay = document.getElementById('books-display');
-const controls = document.getElementsByClassName('controls')[0];
+const controls = document.getElementById('controls');
+const previousButton = document.getElementById('previous');
+const nextButton = document.getElementById('next');
+const currentResultText = document.getElementById('currentResultIndicator');
 
 const apiKey = "AIzaSyDigPDuzzDm-W4SQl-9xv5i2IBEBmVeOLs";
 
@@ -24,7 +27,7 @@ Book.prototype.info = function() {
 
 const library = {
     booksInLibrary: [],
-    allSearchResults: {},
+    allSearchResults: [],
     currentBookToAddCandidate: 0,
 
     getSearchResults: async function(book) {
@@ -80,23 +83,17 @@ const library = {
     nextSearchResult: function() {
         if (library.currentBookToAddCandidate != library.allSearchResults.length-1) {
             library.currentBookToAddCandidate+=1;
-            console.log(library.currentBookToAddCandidate);
             library.clearCurrentBookDisplay();
             searchResultsDiv.appendChild(library.allSearchResults[`${library.currentBookToAddCandidate}`]);
-        }
-        else {
-            console.log("No More Results");
+            currentResultText.innerText = `${library.currentBookToAddCandidate + 1} of ${library.allSearchResults.length} Results`
         }
     },
     previousSearchResult: function() {
         if (library.currentBookToAddCandidate != 0) {
             library.currentBookToAddCandidate-=1;
-            console.log(library.currentBookToAddCandidate);
             library.clearCurrentBookDisplay();
             searchResultsDiv.appendChild(library.allSearchResults[`${library.currentBookToAddCandidate}`]);
-        }
-        else {
-            console.log("This is the first result");
+            currentResultText.innerText = `${library.currentBookToAddCandidate + 1} of ${library.allSearchResults.length} Results`
         }
     },
     closeModal: function() {
@@ -119,16 +116,25 @@ searchForm.addEventListener("submit", async function(e) {
     controls.style.display="flex";
 })
 
-addBookButton.addEventListener("click", () => {
+addBookButton.addEventListener('click', () => {
     addBookModal.style.display="grid";
 })
 
-addToLibraryButton.addEventListener('click', () => {
-    library.booksInLibrary.push(library.allSearchResults.items[0]);
-    booksDisplay.appendChild(library.currentBookToAddCandidate);
-    library.closeModal();
+previousButton.addEventListener('click', () => {
+    library.previousSearchResult();
 })
 
-closeModal.addEventListener("click", library.closeModal);
+nextButton.addEventListener('click', () => {
+    library.nextSearchResult();
+})
+
+addToLibraryButton.addEventListener('click', () => {
+    library.booksInLibrary.push(library.allSearchResults[`${library.currentBookToAddCandidate}`]);
+    booksDisplay.appendChild(library.allSearchResults[`${library.currentBookToAddCandidate}`]);
+    library.closeModal();
+    library.allSearchResults = [];
+})
+
+closeModal.addEventListener('click', library.closeModal);
 
 
