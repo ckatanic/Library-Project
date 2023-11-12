@@ -115,6 +115,11 @@ button {
     gap: 0.5rem;
 }
 
+.book-info > form > input {
+    height: 1rem;
+    background-color: red;
+}
+
 .delete-card-button {
     position: absolute;
     display: block;

@@ -21,6 +21,8 @@ function Book(title, author, numPages, haveRead) {
     this.haveRead = haveRead;
 }
 
+
+
 Book.prototype.info = function() {
     return `${this.title} by ${this.author}, ${this.numPages} pages, ${this.haveRead}`;
 }
@@ -36,37 +38,37 @@ const library = {
         library.allSearchResults = searchResultsData.items.map((item, index) => {
             return library.createBookCard(item, index);
         });
-        console.log(searchResultsData);
+        library.currentBookToAddCandidate=0;
+        currentResultText.innerText = `${this.currentBookToAddCandidate + 1} of ${this.allSearchResults.length} Results`
         return searchResultsData;
     },
     createBookCard: function(searchQueryData) {
-        // console.log(searchQueryData);
-        const bookCard = library.createElement('div', "");
+        const bookCard = this.createElement('div', "");
         bookCard.setAttribute('class', "card");
         const id = searchQueryData.id;
         bookCard.setAttribute('id', `${id}`);
 
-        const imageDiv = library.createElement('div', "");
+        const imageDiv = this.createElement('div', "");
         imageDiv.setAttribute('class', 'image');
 
         if (searchQueryData.volumeInfo.imageLinks !== undefined) {
-            const image = library.createElement('img', "");
+            const image = this.createElement('img', "");
             image.src = searchQueryData.volumeInfo.imageLinks.thumbnail
             imageDiv.append(image);
             bookCard.append(imageDiv);
         }
 
 
-        const bookInfo = library.createElement('div', "");
+        const bookInfo = this.createElement('div', "");
         bookInfo.setAttribute('class', 'book-info');
 
-        const bookTitle = library.createElement('h2', searchQueryData.volumeInfo.title);
+        const bookTitle = this.createElement('h2', searchQueryData.volumeInfo.title);
         bookInfo.appendChild(bookTitle);
 
-        const bookAuthors = library.createElement('p', `Written by ${searchQueryData.volumeInfo.authors[0]}`);
+        const bookAuthors = this.createElement('p', `Written by ${searchQueryData.volumeInfo.authors[0]}`);
         bookInfo.appendChild(bookAuthors);
 
-        const numberOfPages = library.createElement('p', `${searchQueryData.volumeInfo.pageCount} Pages`);
+        const numberOfPages = this.createElement('p', `${searchQueryData.volumeInfo.pageCount} Pages`);
         bookInfo.appendChild(numberOfPages);
 
         let form = this.createElement('form', "");
@@ -79,6 +81,7 @@ const library = {
         input.setAttribute('id', 'haveRead');
         form.appendChild(input);
         bookInfo.appendChild(form);
+
         bookCard.appendChild(bookInfo);
 
         const deleteButton = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -111,24 +114,24 @@ const library = {
         }
     },
     nextSearchResult: function() {
-        if (library.currentBookToAddCandidate != library.allSearchResults.length-1) {
-            library.currentBookToAddCandidate+=1;
-            library.clearCurrentBookDisplay();
-            searchResultsDiv.appendChild(library.allSearchResults[`${library.currentBookToAddCandidate}`]);
-            currentResultText.innerText = `${library.currentBookToAddCandidate + 1} of ${library.allSearchResults.length} Results`
+        if (this.currentBookToAddCandidate != this.allSearchResults.length-1) {
+            this.currentBookToAddCandidate+=1;
+            this.clearCurrentBookDisplay();
+            searchResultsDiv.appendChild(this.allSearchResults[`${this.currentBookToAddCandidate}`]);
+            currentResultText.innerText = `${this.currentBookToAddCandidate + 1} of ${this.allSearchResults.length} Results`
         }
     },
     previousSearchResult: function() {
-        if (library.currentBookToAddCandidate != 0) {
-            library.currentBookToAddCandidate-=1;
-            library.clearCurrentBookDisplay();
-            searchResultsDiv.appendChild(library.allSearchResults[`${library.currentBookToAddCandidate}`]);
-            currentResultText.innerText = `${library.currentBookToAddCandidate + 1} of ${library.allSearchResults.length} Results`
+        if (this.currentBookToAddCandidate != 0) {
+            this.currentBookToAddCandidate-=1;
+            this.clearCurrentBookDisplay();
+            searchResultsDiv.appendChild(this.allSearchResults[`${this.currentBookToAddCandidate}`]);
+            currentResultText.innerText = `${this.currentBookToAddCandidate + 1} of ${this.allSearchResults.length} Results`
         }
     },
     closeModal: function() {
         addBookModal.style.display="none";
-        library.clearCurrentBookDisplay();
+        this.clearCurrentBookDisplay();
         document.getElementById('addToLibraryButton').style.display="none";
         controls.style.display="none";
     }
