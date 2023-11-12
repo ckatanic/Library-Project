@@ -27,17 +27,12 @@
                         <h2>Chaos</h2>
                         <p>by Tom O'Neil</p>
                         <p>500 pages</p>
+                        <form>
+                            <label for="haveRead">Have read</label>
+                            <input type="checkbox" name="haveRead" id="haveRead">
+                        </form>
                     </div>
-                </div>
-                <div class="card">
-                    <div class="image">
-                        <img src="http://books.google.com/books/content?id=zG92DwAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api">
-                    </div>
-                    <div class="book-info">
-                        <h2>Chaos</h2>
-                        <p>by Tom O'Neil</p>
-                        <p>500 pages</p>
-                    </div>
+                    <svg class="delete-card-button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Delete Book</title><path d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" /></svg>
                 </div>
             </div>
         </div>
@@ -51,11 +46,8 @@
                 <div class="search-results" id="search-results">
                 </div>
                 <div class="controls" id="controls">
-                    <!-- Previous SVG Arrow -->
                     <svg id="previous" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Previous Book</title><path d="M13,22L3,12L13,2V8H21V16H13V22M6,12L11,17V14H19V10H11V7L6,12Z" /></svg>
-                    <!-- 1 of 10 span -->
                     <span id="currentResultIndicator">1 of 10 Results</span>
-                    <!-- Next SVG Arrow -->
                     <svg id="next" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>Next Book</title><path d="M11,16H3V8H11V2L21,12L11,22V16M13,7V10H5V14H13V17L18,12L13,7Z" /></svg>
                 </div>
                 <button type="button" id="addToLibraryButton">Add to Library</button>

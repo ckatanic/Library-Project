@@ -36,11 +36,15 @@ const library = {
         library.allSearchResults = searchResultsData.items.map((item, index) => {
             return library.createBookCard(item, index);
         });
+        console.log(searchResultsData);
         return searchResultsData;
     },
     createBookCard: function(searchQueryData) {
+        // console.log(searchQueryData);
         const bookCard = library.createElement('div', "");
         bookCard.setAttribute('class', "card");
+        const id = searchQueryData.id;
+        bookCard.setAttribute('id', `${id}`);
 
         const imageDiv = library.createElement('div', "");
         imageDiv.setAttribute('class', 'image');
@@ -59,13 +63,39 @@ const library = {
         const bookTitle = library.createElement('h2', searchQueryData.volumeInfo.title);
         bookInfo.appendChild(bookTitle);
 
-        const bookAuthors = library.createElement('p', searchQueryData.volumeInfo.authors[0]);
+        const bookAuthors = library.createElement('p', `Written by ${searchQueryData.volumeInfo.authors[0]}`);
         bookInfo.appendChild(bookAuthors);
 
-        const numberOfPages = library.createElement('p', searchQueryData.volumeInfo.pageCount);
+        const numberOfPages = library.createElement('p', `${searchQueryData.volumeInfo.pageCount} Pages`);
         bookInfo.appendChild(numberOfPages);
+
+        let form = this.createElement('form', "");
+        let label = this.createElement('label', '');
+        label.setAttribute('for', 'haveRead');
+        label.innerText='Have Read:';
+        form.appendChild(label);
+        let input = this.createElement('input', "");
+        input.setAttribute('type', 'checkbox');
+        input.setAttribute('id', 'haveRead');
+        form.appendChild(input);
+        bookInfo.appendChild(form);
         bookCard.appendChild(bookInfo);
-        // library.currentBookToAddCandidate = bookCard;
+
+        const deleteButton = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        deleteButton.style.display="none";
+        deleteButton.setAttribute('class', 'delete-card-button');
+        deleteButton.setAttribute('viewBox', '0 0 24 24');
+        deleteButton.setAttribute('xmlns', "http://www.w3.org/2000/svg");
+        var path1 = document.createElementNS("http://www.w3.org/2000/svg", 'path');
+        path1.setAttribute('d', 'M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z');
+        
+
+
+        deleteButton.appendChild(path1);
+        bookCard.appendChild(deleteButton);
+        deleteButton.addEventListener('click', () => {
+            document.getElementById(`${id}`).remove();
+        })
 
         return bookCard;
     },
@@ -131,6 +161,8 @@ nextButton.addEventListener('click', () => {
 addToLibraryButton.addEventListener('click', () => {
     library.booksInLibrary.push(library.allSearchResults[`${library.currentBookToAddCandidate}`]);
     booksDisplay.appendChild(library.allSearchResults[`${library.currentBookToAddCandidate}`]);
+    const id = library.allSearchResults[`${library.currentBookToAddCandidate}`].id;
+    document.querySelector(`#${id} > svg:first-of-type`).style.display="block";
     library.closeModal();
     library.allSearchResults = [];
 })
